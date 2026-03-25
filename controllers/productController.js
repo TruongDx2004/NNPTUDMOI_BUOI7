@@ -1,4 +1,5 @@
 const Product = require('../schemas/productSchema');
+const mongoose = require('mongoose');
 
 const productController = {
     create: async (req, res) => {
