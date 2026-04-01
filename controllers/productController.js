@@ -1,27 +1,11 @@
 const Product = require('../schemas/productSchema');
-const mongoose = require('mongoose');
 
 const productController = {
     create: async (req, res) => {
-        const session = await mongoose.startSession();
-        session.startTransaction();
-
         try {
-            const product = await Product.create([req.body], { session });
-
-            await Inventory.create([{
-                product: product[0]._id
-            }], { session });
-
-            await session.commitTransaction();
-            session.endSession();
-
-            res.status(201).json(product[0]);
-
+            const product = await Product.create(req.body);
+            res.status(201).json(product);
         } catch (error) {
-            await session.abortTransaction();
-            session.endSession();
-
             res.status(500).json({ message: error.message });
         }
     },
